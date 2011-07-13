@@ -44,7 +44,7 @@ function requestWidgetDocs(widgetName, callback) {
 						event = {};
 
 				event.name = $this.find('.event-name').text();
-				event.description = $this.find('.event-description').text().replace(/\n/g, '');
+				event.description = $this.find('.event-description p').text();
 				event.type = $this.find('.event-type').text();
 
 				widget.events.push(event);
