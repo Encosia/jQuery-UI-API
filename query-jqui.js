@@ -1,5 +1,10 @@
-var request = require('request'),
+var sys = require('sys'),
+    request = require('request'),
 		jsdom = require('jsdom');
+		
+var Db = require('mongodb').Db,
+    Connection = require('mongodb').Connection,
+    Server = require('mongodb').Server;
 
 var widgets = ['draggable', 'droppable', 'resizable', 'selectable'];
 							 //'sortable', 'accordion', 'autocomplete', 'button',
@@ -8,8 +13,22 @@ var widgets = ['draggable', 'droppable', 'resizable', 'selectable'];
 
 for (var i = 0; i < widgets.length; i++) {
   requestWidgetDocs(widgets[i], function(widget) {
-		console.log(widget);
+		persistWidget(widget);
 	});
+}
+
+function persistWidget(widget) {
+  var db = new Db('jquery-ui-api', new Server('127.0.0.1', 27017, {}), { native_parser: true });
+  
+  db.open(function(err, db) {
+    db.collection(widget.name, function(err, collection) {
+      collection.insert(widget);
+      
+      sys.puts('Inserted ' + widget.name);
+      
+      db.close();
+    });
+  });
 }
 
 function requestWidgetDocs(widgetName, callback) {
