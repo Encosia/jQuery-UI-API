@@ -8,7 +8,7 @@ var sys = require('sys'),
     Db = require('mongodb').Db,
     Server = require('mongodb').Server;
 
-exports.ifWidgetNotPersisted = function(widgetName, callback) {
+exports.if_widgetNotPersisted = function(widgetName, callback) {
   var db = new Db('jquery-ui-api', new Server('127.0.0.1', 27017, {}), { native_parser: true });
 
   db.open(function(err, db) {

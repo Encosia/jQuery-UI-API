@@ -9,7 +9,7 @@ var widgets = ['draggable', 'droppable', 'resizable', 'selectable',
 							 'tabs', 'position'];
 
 for (var i = 0; i < widgets.length; i++) {
-  persistence.ifWidgetNotPersisted(widgets[i], function(widgetName) {
+  persistence.if_widgetNotPersisted(widgets[i], function(widgetName) {
     sys.puts(widgetName + ' not yet persisted; accessing the tubes.');
   
     scraper.requestWidgetDocs(widgetName, function(widget) {
