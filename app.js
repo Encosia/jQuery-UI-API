@@ -1,5 +1,5 @@
 var express = require('express'),
-    api = require('./jquery-ui-api.js');
+    api = require('./models/jquery-ui-api.js');
 
 var app = module.exports = express.createServer();
 
