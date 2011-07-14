@@ -25,8 +25,7 @@ exports.requestWidgetDocs = function(widgetName, callback) {
 						option = {};
 
 				option.description = $this.find('.option-description p').text();
-				option.referenceURL = 'http://jqueryui.com/demos/' + widgets[i] +
-															'/#' + this.id.substring(7);
+				option.referenceURL = 'http://jqueryui.com/demos/' + widgetName + '/#' + this.id.substring(7);
 				option.type = $this.find('.option-type').text();
 				option.defaultValue = $this.find('.option-default').text();
 
