@@ -55,3 +55,19 @@ exports.persistWidget = function(widget, callback) {
     });
   });
 }
+
+exports.reset_widgetCache = function(callback) {
+  var db = new Db('jquery-ui-api', new Server('127.0.0.1', 27017, {}), { native_parser: true });
+
+  db.open(function(err, db) {
+    db.collection('widgets', function(err, collection) {
+      collection.drop();
+
+      sys.puts('Persistence cache cleared.')
+
+      db.close();
+
+      callback.call();
+    });
+  });
+}

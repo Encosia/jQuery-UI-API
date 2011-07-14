@@ -21,3 +21,9 @@ exports.get_widgetDocs = function(widgetName, callback) {
     callback.call(widget, widget);
   });
 }
+
+exports.reset_widgetCache = function(callback) {
+  persistence.reset_widgetCache(callback, function() {
+    callback.call();
+  });
+}

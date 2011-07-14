@@ -29,9 +29,17 @@ app.get('/', function(req, res){
   });
 });
 
+app.get('/api/reset-cache', function(req, res) {
+  api.reset_widgetCache(function() {
+    res.contentType('application/json');
+
+    res.send(JSON.stringify({ success: true }));
+  });
+});
+
 app.get('/api/:widgetName', function(req, res) {
   api.get_widgetDocs(req.params.widgetName, function(widget) {
-    res.contentType('json');
+    res.contentType('application/json');
 
     res.send(JSON.stringify(widget));
   });
