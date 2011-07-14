@@ -1,10 +1,3 @@
-/**
- * User: DWard
- * Date: 7/13/11
- * Time: 10:21 PM
- * To change this template use File | Settings | File Templates.
- */
-
 var sys = require('sys'),
     request = require('request'),
     jsdom = require('jsdom');

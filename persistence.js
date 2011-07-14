@@ -1,10 +1,3 @@
-/**
- * User: DWard
- * Date: 7/13/11
- * Time: 9:25 PM
- * To change this template use File | Settings | File Templates.
- */
-
 var sys = require('sys'),
     Db = require('mongodb').Db,
     Server = require('mongodb').Server;
