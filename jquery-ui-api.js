@@ -8,12 +8,16 @@ var widgets = ['draggable', 'droppable', 'resizable', 'selectable',
 							 'datepicker', 'dialog', 'progressbar', 'slider',
 							 'tabs', 'position'];
 
-for (var i = 0; i < widgets.length; i++) {
-  persistence.if_widgetNotPersisted(widgets[i], function(widgetName) {
-    sys.puts(widgetName + ' not yet persisted; accessing the tubes.');
-  
+exports.get_widgetDocs = function(widgetName, callback) {
+  persistence.if_widgetNotPersisted(widgetName, function(widgetName) {
     scraper.requestWidgetDocs(widgetName, function(widget) {
-      persistence.persistWidget(widget);
+      persistence.persistWidget(widget, function() {
+        callback.call(widget, widget);
+      });
     });
-	});
+  });
+
+  persistence.if_widgetPersisted(widgetName, function(widget) {
+    callback.call(widget, widget);
+  });
 }
