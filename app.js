@@ -38,6 +38,14 @@ app.get('/api/reset-cache', function(req, res) {
   });
 });
 
+app.get('/api/all', function(req, res) {
+  api.get_allWidgetDocs(function(widgets) {
+    res.contentType('appplication/json');
+
+    res.send(JSON.stringify(widgets));
+  });
+});
+
 app.get('/api/:widgetName', function(req, res) {
   api.get_widgetDocs(req.params.widgetName, function(widget) {
     res.contentType('application/json');
