@@ -48,9 +48,16 @@ app.get('/api/all', function(req, res) {
 
 app.get('/api/:widgetName', function(req, res) {
   api.get_widgetDocs(req.params.widgetName, function(widget) {
-    res.contentType('application/json');
+    if (req.query.callback !== undefined) {
+      res.contentType('application/javascript');
+      res.attachment(widget.name + '-docs.json');
 
-    res.send(JSON.stringify(widget));
+      res.send(req.query.callback + '(' + JSON.stringify(widget) + ')');
+    } else {
+      res.contentType('application/json');
+
+      res.send(JSON.stringify(widget));
+    }
   });
 });
 
