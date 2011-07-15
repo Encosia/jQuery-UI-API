@@ -9,6 +9,13 @@ exports.requestWidgetDocs = function(widgetName, callback) {
 					widget = {};
 
 			widget.name = widgetName;
+      widget.description = $('#overview-main p:first').text();
+
+      widget.dependencies = [];
+
+      $('#overview-dependencies ul li').each(function() {
+        widget.dependencies.push($(this).text());
+      });
 
 			// Build options array.
 			widget.options = [];
@@ -17,6 +24,7 @@ exports.requestWidgetDocs = function(widgetName, callback) {
 				var $this = $(this),
 						option = {};
 
+        option.name = $this.find('.option-name a').text();
 				option.description = $this.find('.option-description p').text();
 				option.referenceURL = 'http://jqueryui.com/demos/' + widgetName + '/#' + this.id.substring(7);
 				option.type = $this.find('.option-type').text();
