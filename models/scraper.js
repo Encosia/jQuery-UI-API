@@ -1,68 +1,67 @@
 var sys = require('sys'),
     request = require('request'),
-    jsdom = require('jsdom');
+    cheerio = require('cheerio');
 
 exports.requestWidgetDocs = function(widgetName, callback) {
 	request('http://jqueryui.com/demos/' + widgetName, function(error, response, body) {
-		jsdom.env({ html: body, scripts: 'jquery-1.6.2.js'}, function(err, window) {
-			var $ = window.jQuery,
-					widget = {};
+    var $ = cheerio.load(body);
 
-			widget.name = widgetName;
-      widget.description = $('#overview-main p:first').text();
+    var widget = {};
 
-      widget.dependencies = [];
+    widget.name = widgetName;
+    widget.description = $('#overview-main p:first').text();
 
-      $('#overview-dependencies ul li').each(function() {
-        widget.dependencies.push($(this).text());
-      });
+    widget.dependencies = [];
 
-			// Build options array.
-			widget.options = [];
+    $('#overview-dependencies ul li').each(function() {
+      widget.dependencies.push($(this).text());
+    });
 
-			$('#options li.option').each(function() {
-				var $this = $(this),
-						option = {};
+    // Build options array.
+    widget.options = [];
 
-        option.name = $this.find('.option-name a').text();
-				option.description = $this.find('.option-description p').text();
-				option.referenceURL = 'http://jqueryui.com/demos/' + widgetName + '/#' + this.id.substring(7);
-				option.type = $this.find('.option-type').text();
-				option.defaultValue = $this.find('.option-default').text();
+    $('#options li.option').each(function() {
+      var $this = $(this),
+          option = {};
 
-				widget.options.push(option);
-			});
+      option.name = $this.find('.option-name a').text();
+      option.description = $this.find('.option-description p').text();
+      option.referenceURL = 'http://jqueryui.com/demos/' + widgetName + '/#' + $(this).attr('id').substring(7);
+      option.type = $this.find('.option-type').text();
+      option.defaultValue = $this.find('.option-default').text();
 
-			// Build events array.
-			widget.events = [];
+      widget.options.push(option);
+    });
 
-			$('#events li.event').each(function() {
-				var $this = $(this),
-						event = {};
+    // Build events array.
+    widget.events = [];
 
-				event.name = $this.find('.event-name').text();
-				event.description = $this.find('.event-description p').text();
-				event.type = $this.find('.event-type').text();
+    $('#events li.event').each(function() {
+      var $this = $(this),
+          event = {};
 
-				widget.events.push(event);
-			});
+      event.name = $this.find('.event-name').text();
+      event.description = $this.find('.event-description p').text();
+      event.type = $this.find('.event-type').text();
 
-			// Build the methods array.
-      widget.methods = [];
+      widget.events.push(event);
+    });
 
-			$('#methods li.method').each(function() {
-				var $this = $(this),
-						method = {};
+    // Build the methods array.
+    widget.methods = [];
 
-				method.name = $this.find('.method-name').text();
-				method.description = $this.find('.method-signature').text().replace(/\n/g, '');
+    $('#methods li.method').each(function() {
+      var $this = $(this),
+          method = {};
 
-				widget.methods.push(method);
-			});
+      method.name = $this.find('.method-name').text();
+      method.description = $this.find('.method-signature').text().replace(/\n/g, '');
 
-      if (typeof callback === 'function') {
-				callback.call(widget, widget);
-			}
-		});
+      widget.methods.push(method);
+    });
+
+    if (typeof callback === 'function') {
+      callback.call(widget, widget);
+    }
 	});
 }

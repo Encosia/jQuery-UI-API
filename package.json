@@ -1,11 +1,10 @@
 {
   "name": "jQuery-UI-API",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "express": ">= 0.0.1",
     "jade": ">= 0.0.1",
-    "jsdom": ">= 0.0.1",
-    "mongodb": ">= 0.0.1"
+    "cheerio": ">= 0.0.1"
   }
 }
