@@ -9,17 +9,15 @@ var widgets = ['draggable', 'droppable', 'resizable', 'selectable',
 							 'tabs', 'position'];
 
 exports.get_widgetDocs = function(widgetName, callback) {
-  persistence.if_widgetNotPersisted(widgetName, function(widgetName) {
+  if (persistence.isWidgetCached(widgetName)) {
+    callback(persistence.getCachedWidget(widgetName));
+  } else {
     scraper.requestWidgetDocs(widgetName, function(widget) {
       persistence.persistWidget(widget, function() {
-        callback.call(widget, widget);
+        callback(widget);
       });
     });
-  });
-
-  persistence.if_widgetPersisted(widgetName, function(widget) {
-    callback.call(widget, widget);
-  });
+  }
 }
 
 exports.get_allWidgetDocs = function(callback) {
